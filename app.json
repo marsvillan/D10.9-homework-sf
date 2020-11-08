@@ -1,0 +1,7 @@
+{
+  "name": "Django Search Car",
+  "description": "SkillFactory HomeWork D10",
+  "image": "heroku/python",
+  "keywords": ["python", "django"]
+}
+

@@ -1,0 +1,55 @@
+{% load static %}
+{% load my_tags %}
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+        <meta charset="UTF-8">  
+	<title>Cars</title>
+	<script type="text/javascript" src="{% static 'colorfield/jscolor/jscolor.js' %}"></script>
+	<script type="text/javascript" src="{% static 'colorfield/colorfield.js' %}"></script>
+	<script>
+	function clear_form(){
+	document.querySelectorAll("#car_form input[type=text],#car_form input[type=number],#car_form select").forEach(
+		e=>{e.value=""}
+	);}
+	</script>
+</head>
+<body>
+<form id="car_form" method="get" action="{% url 'main-view' %}">
+  {{ form.as_ul }}
+  <input type="submit" value="Найти">
+  <input type="reset" value="Очистить в дефолт">
+</form>
+<button onclick="clear_form()">Очистить полностью</button>
+
+<ul>
+{% for car in object_list %}
+  <li>
+    {{ car }} - {{car.color}}
+    <svg width="50" height="10">
+      <rect style="fill: {{car.color}};stroke-width:1;stroke:rgb(0,0,0)" width="50" height="10" />
+    <svg/>
+  </li>
+{% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+	    <a href="?{% param_replace page=1 %}">&laquo; first</a>
+	    <a href="?{% param_replace page=page_obj.previous_page_number %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?{% param_replace page=page_obj.next_page_number %}">next</a>
+            <a href="?{% param_replace page=paginator.num_pages %}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</body>
+</html>
